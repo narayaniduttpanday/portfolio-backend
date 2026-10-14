@@ -1,6 +1,5 @@
 package com.narayani.portfolio.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,13 +7,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
-    @Value("${app.cors.allowed-origins}") private String[] origins;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-            @Override public void addCorsMappings(CorsRegistry r) {
-                r.addMapping("/api/**").allowedOrigins(origins).allowedMethods("GET", "POST");
+            @Override
+            public void addCorsMappings(CorsRegistry r) {
+                r.addMapping("/api/**")
+                 .allowedOrigins(
+                     "https://portfolio-frontend-ochre-eta.vercel.app",
+                     "http://localhost:5173",
+                     "http://localhost:3000"
+                 )
+                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                 .allowedHeaders("*");
             }
         };
     }
